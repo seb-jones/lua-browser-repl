@@ -1,3 +1,10 @@
+var terminalInput = null;
+var historyPosition = null;
+
+function getPrompt() {
+    return document.getElementById("terminal-input-prompt").innerText.trim();
+}
+
 function addLineToOutput(line, className = "terminal-output-line") {
     var span = document.createElement("span");
 
@@ -6,6 +13,27 @@ function addLineToOutput(line, className = "terminal-output-line") {
     span.className = className;
 
     document.getElementById("terminal-output").append(span);
+}
+
+function setInputToCurrentHistoryLine() {
+    var lines = document.getElementsByClassName("terminal-input-line");
+
+    if (lines.length === 0) {
+        historyPosition = null;
+        return;
+    }
+
+    if (historyPosition > lines.length) {
+        historyPosition = 1;
+    }
+
+    if (historyPosition < 1) {
+        historyPosition = lines.length;
+    }
+
+    terminalInput.value = lines[lines.length - historyPosition].innerText.replace(
+        /^\$\s*/, ''
+    );
 }
 
 var Module = {
@@ -22,9 +50,23 @@ var Module = {
             Module.printErr(message);
         };
 
-        var terminalInput = document.getElementById("terminal-input");
+        terminalInput = document.getElementById("terminal-input");
 
         terminalInput.addEventListener("keydown", function (e) {
+            if (e.code === 'ArrowUp') {
+                if (historyPosition === null) {
+                    historyPosition = 1;
+                } else {
+                    historyPosition++;
+                }
+
+                setInputToCurrentHistoryLine();
+
+                return;
+            }
+
+            historyPosition = null;
+
             if (e.code === "Enter") {
                 e.preventDefault();
 
@@ -32,9 +74,7 @@ var Module = {
 
                 terminalInput.value = "";
 
-                var prompt = document.getElementById("terminal-input-prompt").innerText.trim();
-
-                addLineToOutput(prompt + " " + input, "terminal-input-line");
+                addLineToOutput(getPrompt() + " " + input, "terminal-input-line");
 
                 Module.ccall("parse", null, [ "string" ], [ input ]);
             }
