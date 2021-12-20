@@ -31,6 +31,7 @@ jobs:
           git checkout gh-pages
           git pull
           cp -r build docs
+          rm docs/.gitignore
           git add docs
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
