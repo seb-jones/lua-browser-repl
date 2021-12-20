@@ -30,6 +30,7 @@ jobs:
           git fetch origin
           git checkout gh-pages
           git pull
+          rm -rf docs
           cp -r build docs
           rm docs/.gitignore
           git add docs
