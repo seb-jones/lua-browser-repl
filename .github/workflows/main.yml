@@ -30,7 +30,8 @@ jobs:
           git fetch origin
           git checkout gh-pages
           git pull
-          git add build
+          cp -r build docs
+          git add docs
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git commit -m 'deploy'
