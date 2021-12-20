@@ -27,9 +27,9 @@ jobs:
 
       - name: Commit built files to gh-pages branch
         run: |
-          cd build
-          git init
-          git add -A
-          git commit -m "deploy"
-          git push -f git@github.com:seb-jones/lua-browser-repl.git main:gh-pages
-          cd -
+          git checkout gh-pages
+          git add build
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git commit -m 'deploy'
+          git push
