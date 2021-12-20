@@ -17,7 +17,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       
-      - uses: mymindstorm/setup-emsdk@v11
+      - name: Setup emsdk
+        uses: mymindstorm/setup-emsdk@v11
+        with:
+          version: 2.0.34
+          actions-cache-folder: 'emsdk-cache'
 
       - name: Fetch and build Lua source code
         run: make libraries
