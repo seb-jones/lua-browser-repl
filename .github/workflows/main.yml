@@ -22,5 +22,14 @@ jobs:
       - name: Fetch and build Lua source code
         run: make libraries
 
-      - name: Build our application in production mode
+      - name: Build application in production mode
         run: make prod
+
+      - name: Commit built files to gh-pages branch
+        run: |
+          cd build
+          git init
+          git add -A
+          git commit -m "deploy"
+          git push -f git@github.com:seb-jones/lua-browser-repl.git main:gh-pages
+          cd -
