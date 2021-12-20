@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html style="height: 100%;">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width" />
+        <title>Browser-based Lua Interpreter</title>
+        <style type="text/css" media="screen">
+.terminal-text {
+    background-color: black;
+    color: green;
+    font-family: monospace;
+    font-size: 1rem;
+    border: 0;
+    outline: 0;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    display: block;
+}
+
+.terminal-output-line {
+    display: block;
+    margin-bottom: 1rem;
+    color: white;
+}
+
+.terminal-error-line {
+    display: block;
+    margin-bottom: 1rem;
+    color: red;
+}
+
+.terminal-input-line {
+    display: block;
+    margin-bottom: 1rem;
+    color: green;
+}
+        </style>
+    </head>
+
+    <body style="margin: 0; margin-top: -1rem; padding: 0 1rem 1rem; background-color: black; height: 100%;">
+        <div style="display: flex; flex-direction: column; justify-content: flex-end; height: 100%;">
+            <p id="terminal-output"
+               class="terminal-text"
+               >
+            </p>
+
+            <div style="display: flex;">
+                <p class="terminal-text"
+                   style="flex-shrink: 1; width: auto;"
+                   >
+                   <span id="terminal-input-prompt">$</span>&nbsp;
+                </p>
+                <input type="text"
+                       value=""
+                       id="terminal-input"
+                       class="terminal-text"
+                       style="flex-grow: 1;"
+                       autofocus
+                       >
+            </div>
+        </div>
+    </body>
+
+    <script async type="text/javascript" src="/index.js"></script>
+
+    <script async type="text/javascript" src="/compiled.js"></script>
+</html>
