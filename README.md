@@ -1,6 +1,6 @@
 # lua-browser-repl
 
-Basic Lua Interpreter that runs in the web browser. [Try it here](https://seb-jones.github.io/lua-browser-repl/)
+Basic Lua Interpreter that runs in the web browser. [Try it here](https://seb-jones.github.io/lua-browser-repl/).
 
 Uses [Emscripten](https://emscripten.org/) to compile the Lua source code into WebAssembly.
 
