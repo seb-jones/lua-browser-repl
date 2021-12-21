@@ -1,6 +1,6 @@
 LUA_SOURCE_PATH=code/libraries/lua-5.4.3/src
 
-SHARED_OPTIONS=-I $(LUA_SOURCE_PATH) -L $(LUA_SOURCE_PATH) -Wall code/main.c -o build/compiled.js -s EXPORTED_FUNCTIONS='["_parse"]' -s EXPORTED_RUNTIME_METHODS='["ccall","cwrap"]' -l lua
+SHARED_OPTIONS=-I $(LUA_SOURCE_PATH) -L $(LUA_SOURCE_PATH) -Wall code/main.c -o build/compiled.js -s EXPORTED_FUNCTIONS='["_initialise_lua", "_parse"]' -s EXPORTED_RUNTIME_METHODS='["ccall","cwrap"]' -l lua
 
 MAKE_BUILD_DIRECTORY=mkdir -p ./build
 

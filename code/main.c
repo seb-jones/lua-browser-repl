@@ -1,24 +1,29 @@
-#include <ctype.h>
 #include <stdio.h>
-#include <stdbool.h>
+#include <stdlib.h>
 #include <string.h>
-#include <strings.h>
 #include <lua.h>
 #include <lauxlib.h>
 #include <lualib.h>
 
-void parse(char *input)
+lua_State *L = NULL;
+
+void initialise_lua()
 {
-    lua_State *L = luaL_newstate();
+    L = luaL_newstate();
 
     luaL_openlibs(L);
 
+    luaL_loadstring(L, "print('Welcome! This REPL is using ' .. _VERSION)");
+
+    lua_pcall(L, 0, 0, 0);
+}
+
+void parse(char *input)
+{
     int error = luaL_loadstring(L, input) || lua_pcall(L, 0, 0, 0);
 
     if (error) {
         fprintf(stderr, "%s\n", lua_tostring(L, -1));
         lua_pop(L, 1);
     }
-
-    lua_close(L);
 }

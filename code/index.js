@@ -48,6 +48,8 @@ var Module = {
             Module.printErr(message);
         };
 
+        Module.ccall("initialise_lua");
+
         terminalInput = document.getElementById("terminal-input");
 
         terminalInput.addEventListener("keydown", function (e) {
