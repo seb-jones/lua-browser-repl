@@ -41,8 +41,10 @@ void initialise_lua()
     lua_pcall(L, 0, 0, 0);
 }
 
-void parse(char *input)
+int protected_parse(lua_State *L)
 {
+    const char *input = lua_tostring(L, 1);
+
     const char *s = lua_pushfstring(L, "return %s", input);
 
     luaL_loadstring(L, s);
@@ -51,5 +53,19 @@ void parse(char *input)
 
     if (lua_pcall(L, 0, LUA_MULTRET, 0)) print_error();
 
+    /* Remove original input line from stack */
+    lua_remove(L, 1);
+
     print_values_on_stack();
+
+    return LUA_OK;
+}
+
+void parse(const char *input)
+{
+    lua_pushcfunction(L, &protected_parse);
+
+    lua_pushstring(L, (void *)input);
+
+    lua_pcall(L, 1, 0, 0);
 }
