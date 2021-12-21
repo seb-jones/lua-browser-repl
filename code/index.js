@@ -38,11 +38,9 @@ function setInputToCurrentHistoryLine() {
 
 var Module = {
     print: function(text) {
-        console.log(text);
         addLineToOutput(text);
     },
     printErr: function(text) {
-        console.error(text);
         addLineToOutput(text, "terminal-error-line");
     },
     onRuntimeInitialized: function() {
