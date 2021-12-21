@@ -6,6 +6,7 @@ COPY_STATIC_FILES=cp code/index.html code/index.js build
 
 # Build the main web app in debug mode
 build/index.html:	code/*
+	mkdir -p ./build
 	emcc -g -O0 -fsanitize=undefined $(SHARED_OPTIONS)
 	$(COPY_STATIC_FILES)
 
@@ -21,5 +22,5 @@ libraries:
 
 # Delete built files
 clean:
-	rm -rf build/*
+	rm -rf ./build
 	rm -rf code/libraries/lua-5.4.3
