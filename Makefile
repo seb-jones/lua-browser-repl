@@ -2,16 +2,19 @@ LUA_SOURCE_PATH=code/libraries/lua-5.4.3/src
 
 SHARED_OPTIONS=-I $(LUA_SOURCE_PATH) -L $(LUA_SOURCE_PATH) -Wall code/main.c -o build/compiled.js -s EXPORTED_FUNCTIONS='["_parse"]' -s EXPORTED_RUNTIME_METHODS='["ccall","cwrap"]' -l lua
 
+MAKE_BUILD_DIRECTORY=mkdir -p ./build
+
 COPY_STATIC_FILES=cp code/index.html code/index.js build
 
 # Build the main web app in debug mode
 build/index.html:	code/*
-	mkdir -p ./build
+	$(MAKE_BUILD_DIRECTORY)
 	emcc -g -O0 -fsanitize=undefined $(SHARED_OPTIONS)
 	$(COPY_STATIC_FILES)
 
 # Build the main web app in production mode
 prod:	code/*
+	$(MAKE_BUILD_DIRECTORY)
 	emcc -O2 $(SHARED_OPTIONS)
 	$(COPY_STATIC_FILES)
 
