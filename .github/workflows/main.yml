@@ -23,6 +23,12 @@ jobs:
           version: 2.0.34
           actions-cache-folder: 'emsdk-cache'
 
+      - name: Cache Built Lua source code
+        uses: actions/cache@v2
+        with:
+          key: ${{ runner.os }}-emscripten-lua-5.4.3
+          path: ./code/libraries/lua-5.4.3
+
       - name: Fetch and build Lua source code
         run: make libraries
 
