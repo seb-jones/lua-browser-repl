@@ -1,6 +1,6 @@
 # lua-browser-repl
 
-[https://seb-jones.github.io/lua-browser-repl](https://seb-jones.github.io/lua-browser-repl).
+[https://seb-jones.github.io/lua-browser-repl](https://seb-jones.github.io/lua-browser-repl)
 
 Basic Lua Interpreter that runs in the web browser.
 
