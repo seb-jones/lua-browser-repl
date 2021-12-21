@@ -8,16 +8,10 @@ Basic Lua Interpreter that runs in the web browser.
 
 ## Compiling
 
-Requires Emscripten's `emcc` and `emmake` commands to be in your `PATH`.
-
-First fetch and build the Lua source:
-
-```sh
-make libraries
-```
-
-Then build the actual web page:
+Requires Emscripten's `emcc` and `emmake` commands to be in your `PATH`. Building is as simple as:
 
 ```sh
 make
 ```
+
+That will download and build the Lua source if it isn't already built, and then build the web page.
