@@ -20,7 +20,5 @@ void parse(char *input)
         lua_pop(L, 1);
     }
 
-    // cache test
-
     lua_close(L);
 }
