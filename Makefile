@@ -13,6 +13,7 @@ build/index.html:	code/* code/libraries/lua-5.4.3/src/liblua.a
 	$(COPY_STATIC_FILES)
 
 # Build the main web app in production mode
+.PHONY: prod
 prod:	code/* code/libraries/lua-5.4.3/src/liblua.a
 	$(MAKE_BUILD_DIRECTORY)
 	emcc -O2 $(SHARED_OPTIONS)
