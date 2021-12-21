@@ -18,6 +18,7 @@ prod:	code/*
 	emcc -O2 $(SHARED_OPTIONS)
 	$(COPY_STATIC_FILES)
 
+# Fetch and build the Lua source code
 libraries:
 	wget https://www.lua.org/ftp/lua-5.4.3.tar.gz -O - | tar -xz --directory=code/libraries
 	sed -i -e 's/^CC=\s*gcc/CC=emcc/g' code/libraries/lua-5.4.3/src/Makefile
