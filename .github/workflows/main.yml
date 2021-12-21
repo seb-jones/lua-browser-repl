@@ -29,16 +29,8 @@ jobs:
       - name: Build application in production mode
         run: make prod
 
-      - name: Commit built files to gh-pages branch
-        run: |
-          git fetch origin
-          git checkout gh-pages
-          git pull
-          rm -rf docs
-          cp -r build docs
-          rm docs/.gitignore
-          git add docs
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git commit -m 'deploy'
-          git push
+      - name: Deploy built files to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build
