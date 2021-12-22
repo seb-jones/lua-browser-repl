@@ -4,7 +4,8 @@
   "description": "[https://seb-jones.github.io/lua-browser-repl](https://seb-jones.github.io/lua-browser-repl)",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --watch"
+    "test": "mocha",
+    "test:watch": "mocha --watch"
   },
   "repository": {
     "type": "git",
