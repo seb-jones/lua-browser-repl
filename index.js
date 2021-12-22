@@ -64,20 +64,20 @@ var Module = {
 
                 return;
             }
+        });
+
+        document.getElementById("terminal-form").addEventListener("submit", function (e) {
+            e.preventDefault();
 
             historyPosition = null;
 
-            if (e.code === "Enter") {
-                e.preventDefault();
+            var input = terminalInput.value;
 
-                var input = terminalInput.value;
+            terminalInput.value = "";
 
-                terminalInput.value = "";
+            addLineToOutput(getPrompt() + " " + input, "terminal-input-line");
 
-                addLineToOutput(getPrompt() + " " + input, "terminal-input-line");
-
-                Module.ccall("parse", null, [ "string" ], [ input ]);
-            }
+            Module.ccall("parse", null, [ "string" ], [ input ]);
         });
     },
 };
