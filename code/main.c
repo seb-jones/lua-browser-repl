@@ -83,6 +83,8 @@ int protected_parse(lua_State *L)
     else
         print_error();
 
+    free(input);
+
     return LUA_OK;
 }
 
