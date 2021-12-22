@@ -7,11 +7,10 @@
 
 lua_State *L = NULL;
 
-/* assumes an error message is on the top of the stack */
+/* Prints error message at the top of the stack and then pops it */
 void print_error()
 {
     fprintf(stderr, "%s\n", lua_tostring(L, -1));
-
     lua_pop(L, 1);
 }
 
@@ -43,20 +42,46 @@ void initialise_lua()
 
 int protected_parse(lua_State *L)
 {
-    const char *input = lua_tostring(L, 1);
+    /* Allocate a copy of the input string and then pop it from the stack */
+    char *input;
+    {
+        size_t length;
 
-    const char *s = lua_pushfstring(L, "return %s", input);
+        const char *s = luaL_tolstring(L, 1, &length);
 
-    luaL_loadstring(L, s);
+        input = malloc(length + 1);
 
-    lua_remove(L, -2);
+        strcpy(input, s);
 
-    if (lua_pcall(L, 0, LUA_MULTRET, 0)) print_error();
+        /* Pop the original input argument and the string created by luaL_tolstring */
+        lua_pop(L, 2);
+    }
 
-    /* Remove original input line from stack */
-    lua_remove(L, 1);
+    /* Try running as an expression that returns a result first */
+    int error;
+    {
+        const char *s = lua_pushfstring(L, "return %s", input);
 
-    print_values_on_stack();
+        luaL_loadstring(L, s);
+
+        /* Remove the string created by lua_pushfstring to the stack */
+        lua_remove(L, -2);
+
+        error = lua_pcall(L, 0, LUA_MULTRET, 0);
+    }
+
+    /* Try running code as a statement if 'return' expression fails */
+    if (error != LUA_OK) {
+        /* Remove the error from the failed 'return' expression first */
+        lua_pop(L, 1);
+
+        error = luaL_dostring(L, input);
+    }
+
+    if (error == LUA_OK)
+        print_values_on_stack();
+    else
+        print_error();
 
     return LUA_OK;
 }
