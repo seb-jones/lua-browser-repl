@@ -97,10 +97,8 @@ createModule(options).then(function (instance) {
         );
 
         if (inputChunkIsIncomplete) {
-            console.log('The input chunk is not complete');
             currentInputLine += input;
         } else {
-            console.log('The input chunk was parsed');
             currentInputLine = '';
         }
 
