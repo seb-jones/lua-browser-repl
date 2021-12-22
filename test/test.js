@@ -30,7 +30,6 @@ describe("Lua REPL Module", function() {
             );
 
             expect(stdout.length).to.equal(2);
-
             expect(stdout[1]).to.equal('6');
         });
 
@@ -53,7 +52,6 @@ describe("Lua REPL Module", function() {
 
             expect(stdout.length).to.equal(2);
             expect(stdout[1]).to.equal('10');
-
         });
     });
 });
