@@ -43,65 +43,66 @@ function setInputToCurrentHistoryLine() {
     );
 }
 
-var Module = {
+var options = {
     print: function(text) {
         addLineToOutput(text);
     },
     printErr: function(text) {
         addLineToOutput(text, "terminal-error-line");
     },
-    onRuntimeInitialized: function() {
-        window.onerror = function(message) {
-            Module.printErr(message);
-        };
+};
 
-        Module.ccall("initialise_lua");
+createModule(options).then(function (instance) {
+    window.onerror = function(message) {
+        instance.printErr(message);
+    };
+
+    instance.ccall("initialise_lua");
+
+    setPrompt();
+
+    terminalInput = document.getElementById("terminal-input");
+
+    terminalInput.addEventListener("keydown", function (e) {
+        if (e.code === 'ArrowUp') {
+            if (historyPosition === null) {
+                historyPosition = 1;
+            } else {
+                historyPosition++;
+            }
+
+            setInputToCurrentHistoryLine();
+
+            return;
+        }
+    });
+
+    document.getElementById("terminal-form").addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        historyPosition = null;
+
+        var input = terminalInput.value;
+
+        terminalInput.value = "";
+
+        addLineToOutput(getPrompt() + " " + input, "terminal-input-line");
+
+        var inputChunkIsIncomplete = instance.ccall(
+            "parse",
+            'number',
+            [ "string" ],
+            [ currentInputLine + input ]
+        );
+
+        if (inputChunkIsIncomplete) {
+            console.log('The input chunk is not complete');
+            currentInputLine += input;
+        } else {
+            console.log('The input chunk was parsed');
+            currentInputLine = '';
+        }
 
         setPrompt();
-
-        terminalInput = document.getElementById("terminal-input");
-
-        terminalInput.addEventListener("keydown", function (e) {
-            if (e.code === 'ArrowUp') {
-                if (historyPosition === null) {
-                    historyPosition = 1;
-                } else {
-                    historyPosition++;
-                }
-
-                setInputToCurrentHistoryLine();
-
-                return;
-            }
-        });
-
-        document.getElementById("terminal-form").addEventListener("submit", function (e) {
-            e.preventDefault();
-
-            historyPosition = null;
-
-            var input = terminalInput.value;
-
-            terminalInput.value = "";
-
-            addLineToOutput(getPrompt() + " " + input, "terminal-input-line");
-
-            var inputChunkIsIncomplete = Module.ccall(
-                "parse",
-                'number',
-                [ "string" ],
-                [ currentInputLine + input ]
-            );
-
-            if (inputChunkIsIncomplete) {
-                console.log('The input chunk is not complete');
-                currentInputLine += input;
-            } else {
-                console.log('The input chunk was parsed');
-                currentInputLine = '';
-            }
-
-            setPrompt();
-        });
-    },
-};
+    });
+});
