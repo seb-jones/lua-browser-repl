@@ -85,7 +85,7 @@ int protected_parse(lua_State *L)
 
     free(input);
 
-    return LUA_OK;
+    return 0;
 }
 
 void parse(const char *input)
