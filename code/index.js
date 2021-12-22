@@ -39,7 +39,8 @@ function setInputToCurrentHistoryLine() {
     }
 
     terminalInput.value = lines[lines.length - historyPosition].innerText.replace(
-        /^\$\s*/, ''
+        new RegExp(`^(${prompt1}|${prompt2})\\s`),
+        ""
     );
 }
 
