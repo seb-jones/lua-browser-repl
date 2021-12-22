@@ -1,0 +1,24 @@
+{
+  "name": "lua-browser-repl",
+  "version": "1.0.0",
+  "description": "[https://seb-jones.github.io/lua-browser-repl](https://seb-jones.github.io/lua-browser-repl)",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/seb-jones/lua-browser-repl.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/seb-jones/lua-browser-repl/issues"
+  },
+  "homepage": "https://github.com/seb-jones/lua-browser-repl#readme",
+  "devDependencies": {
+    "chai": "^4.3.4",
+    "mocha": "^9.1.3"
+  }
+}
