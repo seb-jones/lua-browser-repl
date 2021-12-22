@@ -1,5 +1,6 @@
 var terminalInput = null;
 var historyPosition = null;
+var currentInputLine = '';
 
 function getPrompt() {
     return document.getElementById("terminal-input-prompt").innerText.trim();
@@ -77,7 +78,20 @@ var Module = {
 
             addLineToOutput(getPrompt() + " " + input, "terminal-input-line");
 
-            Module.ccall("parse", null, [ "string" ], [ input ]);
+            var inputChunkIsIncomplete = Module.ccall(
+                "parse",
+                'number',
+                [ "string" ],
+                [ currentInputLine + input ]
+            );
+
+            if (inputChunkIsIncomplete) {
+                console.log('The input chunk is not complete');
+                currentInputLine += input;
+            } else {
+                console.log('The input chunk was parsed');
+                currentInputLine = '';
+            }
         });
     },
 };
