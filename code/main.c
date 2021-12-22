@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -40,6 +41,10 @@ void initialise_lua()
     lua_pcall(L, 0, 0, 0);
 }
 
+/* mark in error messages for incomplete statements */
+#define EOFMARK "<eof>"
+#define marklen (sizeof(EOFMARK) / sizeof(char) - 1)
+
 int protected_parse(lua_State *L)
 {
     /* Allocate a copy of the input string and then pop it from the stack */
@@ -78,21 +83,46 @@ int protected_parse(lua_State *L)
         error = luaL_dostring(L, input);
     }
 
-    if (error == LUA_OK)
+    bool input_chunk_is_incomplete = false;
+
+    if (error == LUA_OK) {
         print_values_on_stack();
-    else
-        print_error();
+    } else {
+        /* Check for incomplete input chunk */
+        size_t length;
+        const char *s = lua_tolstring(L, -1, &length);
+
+        if (length >= marklen && strcmp(s + length - marklen, EOFMARK) == 0) {
+            lua_pop(L, 1);
+            input_chunk_is_incomplete = true;
+        }
+
+        if (!input_chunk_is_incomplete) {
+            print_error();
+        }
+    }
 
     free(input);
 
-    return 0;
+    /* Push result of this function to stack */
+    lua_pushboolean(L, input_chunk_is_incomplete);
+
+    /* return number of results of this lua function */
+    return 1;
 }
 
-void parse(const char *input)
+bool parse(const char *input)
 {
     lua_pushcfunction(L, &protected_parse);
 
     lua_pushstring(L, (void *)input);
 
-    lua_pcall(L, 1, 0, 0);
+    lua_pcall(L, 1, 1, 0);
+
+    bool result = lua_toboolean(L, -1);
+
+    /* Remove pcall result from stack */
+    lua_pop(L, 1);
+
+    return result;
 }
