@@ -21,7 +21,7 @@ describe("Lua REPL Module", function() {
             this.instance.ccall("initialise_lua");
         });
 
-        it("Evaluates a Lua expression", async function() {
+        it("Evaluates a Lua expression", function() {
             this.instance.ccall(
                 "parse",
                 "number",
@@ -34,7 +34,7 @@ describe("Lua REPL Module", function() {
             expect(stdout[1]).to.equal('6');
         });
 
-        it("Evaluates a Lua assignment", async function() {
+        it("Evaluates a Lua assignment", function() {
             this.instance.ccall(
                 "parse",
                 "number",
