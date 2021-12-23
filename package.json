@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha",
-    "test:watch": "mocha --watch"
+    "test:watch": "mocha --watch",
+    "cypress:open": "cypress open"
   },
   "repository": {
     "type": "git",
@@ -20,6 +21,7 @@
   "homepage": "https://github.com/seb-jones/lua-browser-repl#readme",
   "devDependencies": {
     "chai": "^4.3.4",
+    "cypress": "^9.2.0",
     "mocha": "^9.1.3"
   }
 }
