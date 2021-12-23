@@ -56,7 +56,9 @@ describe('Lua REPL', () => {
         cy.submitLine("4 + 4");
 
         cy.get('#terminal-input')
-          .type('{uparrow}{uparrow}')
+          .type('{uparrow}')
+          .should('have.value', '4 + 4')
+          .type('{uparrow}')
           .should('have.value', '3 + 3')
           .type('{enter}')
           .should('have.value', '');
