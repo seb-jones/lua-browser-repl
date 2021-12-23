@@ -22,28 +22,6 @@ function addLineToOutput(line, className = "terminal-output-line") {
     document.getElementById("terminal-output").append(span);
 }
 
-function setInputToCurrentHistoryLine() {
-    var lines = document.getElementsByClassName("terminal-input-line");
-
-    if (lines.length === 0) {
-        historyPosition = null;
-        return;
-    }
-
-    if (historyPosition > lines.length) {
-        historyPosition = 1;
-    }
-
-    if (historyPosition < 1) {
-        historyPosition = lines.length;
-    }
-
-    terminalInput.value = lines[lines.length - historyPosition].innerText.replace(
-        new RegExp(`^(${prompt1}|${prompt2})\\s`),
-        ""
-    );
-}
-
 var options = {
     print: function(text) {
         addLineToOutput(text);
@@ -65,16 +43,41 @@ createModule(options).then(function (instance) {
     terminalInput = document.getElementById("terminal-input");
 
     terminalInput.addEventListener("keydown", function (e) {
-        if (e.code === 'ArrowUp') {
-            if (historyPosition === null) {
-                historyPosition = 1;
-            } else {
-                historyPosition++;
-            }
+        var historyLines = document.getElementsByClassName("terminal-input-line");
 
-            setInputToCurrentHistoryLine();
-
+        if (historyLines.length === 0) {
             return;
+        }
+
+        if (e.code !== 'ArrowUp' && e.code !== 'ArrowDown') {
+            return;
+        }
+
+        if (e.code === 'ArrowUp') {
+            historyPosition = (historyPosition === null) ?
+                1 : (historyPosition + 1);
+
+            if (historyPosition > historyLines.length) {
+                historyPosition = null;
+            }
+        } else {
+            historyPosition = (historyPosition === null) ?
+                historyLines.length : (historyPosition - 1);
+
+            if (historyPosition < 1) {
+                historyPosition = null;
+            }
+        }
+
+        if (historyPosition === null) {
+            terminalInput.value = "";
+        } else {
+            terminalInput.value = historyLines[historyLines.length - historyPosition]
+                .innerText
+                .replace(
+                    new RegExp(`^(${prompt1}|${prompt2})\\s`),
+                    ""
+                );
         }
     });
 
