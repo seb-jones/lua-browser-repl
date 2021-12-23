@@ -40,5 +40,17 @@ describe("Lua REPL Module", function() {
             expect(stdout.length).to.equal(2);
             expect(stdout[1]).to.equal("10");
         });
+
+        it("Returns `true` if input is not a complete Lua chunk", function() {
+            var inputChunkIsIncomplete = this.parse("print(");
+
+            expect(inputChunkIsIncomplete).to.equal(1);
+
+            expect(stdout).to.be.an('array')
+                .with.lengthOf(1)
+                .and.members([
+                    "Welcome! This REPL is using Lua 5.4"
+                ]);
+        });
     });
 });
