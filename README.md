@@ -14,4 +14,34 @@ Requires Emscripten's `emcc` and `emmake` commands to be in your `PATH`. Buildin
 make
 ```
 
-That will download and build the Lua source if it isn't already built, and then build the web page.
+This will download and build the Lua source if it isn't already built, and then build the web page.
+
+## Development
+
+A local development server can be started by running:
+
+```sh
+npm start
+```
+
+This uses the [http-server](https://github.com/http-party/http-server) package to launch a HTTP server at `http://127.0.0.1:8080` with `./build` as the web root.
+
+## Tests
+
+Unit tests (using the [Mocha](https://mochajs.org/) runner) can be run with:
+
+```sh
+npm test
+```
+
+Alternatively they can be run in file-watching mode with:
+
+```sh
+npm run test:watch
+```
+
+End-to-end tests are implemented using [Cypress](https://docs.cypress.io/), which can be run using:
+
+```sh
+npm run cypress:open
+```
