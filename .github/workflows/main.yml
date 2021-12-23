@@ -11,7 +11,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  build_and_test:
     runs-on: ubuntu-latest
 
     steps:
@@ -45,8 +45,43 @@ jobs:
           npm install
           npm test
 
+      - name: Upload compiled application artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: compiled-app
+          path: build
+
       - name: Deploy built files to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./build
+
+  cypress_test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download compiled application artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: compiled-app
+
+      - name: Cypress run
+        uses: cypress-io/github-action@v2
+        with:
+          config: baseUrl=http://localhost:3000
+          start: npm start
+
+      - name: Upload Cypress Screenshot Artifacts
+        uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
+
+      - name: Upload Cypress Video Artifacts
+        uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: cypress-videos
+          path: cypress/videos
