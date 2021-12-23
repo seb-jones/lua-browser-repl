@@ -1,6 +1,6 @@
 var { expect } = require("chai");
 
-var moduleFactory = require("../build/compiled.js");
+var createModule = require("../build/compiled.js");
 
 var stdout = [];
 var stderr = [];
@@ -11,12 +11,12 @@ describe("Lua REPL Module", function() {
             stdout = [];
             stderr = [];
 
-            var Module = {
+            var options = {
                 "print": function(text) { stdout.push(text) },
                 "printErr": function(text) { stderr.push(text) }
             };
 
-            this.instance = await moduleFactory(Module);
+            this.instance = await createModule(options);
 
             this.instance.ccall("initialise_lua");
 
