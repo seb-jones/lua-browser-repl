@@ -20,4 +20,20 @@ describe('Lua REPL', () => {
 
         cy.lastOutputLine().contains('5');
     });
+
+    it('Allows incomplete chunks to be completed', () => {
+        cy.visit('/');
+
+        cy.waitForWelcomeMessage();
+
+        cy.submitLine("print(");
+
+        cy.get('#terminal-input-prompt').should('have.text', '>>');
+
+        cy.submitLine("'Test')");
+
+        cy.lastOutputLine().contains('Test');
+
+        cy.get('#terminal-input-prompt').should('have.text', '>');
+    });
 });
