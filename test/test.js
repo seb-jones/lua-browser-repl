@@ -52,5 +52,21 @@ describe("Lua REPL Module", function() {
                     "Welcome! This REPL is using Lua 5.4"
                 ]);
         });
+
+        it("Writes errors to stderr", function() {
+            this.parse("3 +");
+
+            expect(stdout).to.be.an('array')
+                .with.lengthOf(1)
+                .and.members([
+                    "Welcome! This REPL is using Lua 5.4"
+                ]);
+
+            expect(stderr).to.be.an('array')
+                .with.lengthOf(1)
+                .and.members([
+                    `[string "3 +"]:1: unexpected symbol near '3'`
+                ]);
+        });
     });
 });
