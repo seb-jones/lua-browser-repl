@@ -1,11 +1,11 @@
 var terminalInput = null;
 var historyPosition = null;
-var currentInputLine = '';
-var prompt1 = '>';
-var prompt2 = '>>';
+var currentInputLine = "";
+var prompt1 = ">";
+var prompt2 = ">>";
 
 function getPrompt() {
-    return currentInputLine === '' ? prompt1 : prompt2;
+    return currentInputLine === "" ? prompt1 : prompt2;
 }
 
 function setPrompt() {
@@ -49,11 +49,11 @@ createModule(options).then(function (instance) {
             return;
         }
 
-        if (e.code !== 'ArrowUp' && e.code !== 'ArrowDown') {
+        if (e.code !== "ArrowUp" && e.code !== "ArrowDown") {
             return;
         }
 
-        if (e.code === 'ArrowUp') {
+        if (e.code === "ArrowUp") {
             historyPosition = (historyPosition === null) ?
                 1 : (historyPosition + 1);
 
@@ -94,7 +94,7 @@ createModule(options).then(function (instance) {
 
         var inputChunkIsIncomplete = instance.ccall(
             "parse",
-            'number',
+            "number",
             [ "string" ],
             [ currentInputLine + input ]
         );
@@ -102,7 +102,7 @@ createModule(options).then(function (instance) {
         if (inputChunkIsIncomplete) {
             currentInputLine += input;
         } else {
-            currentInputLine = '';
+            currentInputLine = "";
         }
 
         setPrompt();
