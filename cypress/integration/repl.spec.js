@@ -47,4 +47,20 @@ describe('Lua REPL', () => {
             `[string "3 +"]:1: unexpected symbol near '3'`
         );
     });
+
+    it('Scrolls through history when up arrow is pressed', () => {
+        cy.visitREPL();
+
+        cy.submitLine("3 + 3");
+
+        cy.submitLine("4 + 4");
+
+        cy.get('#terminal-input')
+          .type('{uparrow}{uparrow}')
+          .should('have.value', '3 + 3')
+          .type('{enter}')
+          .should('have.value', '');
+
+        cy.lastOutputLineEquals('6');
+    });
 });
