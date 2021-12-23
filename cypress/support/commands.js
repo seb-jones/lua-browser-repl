@@ -9,11 +9,13 @@
 // ***********************************************
 
 Cypress.Commands.add('submitLine', (line) => { 
-    cy.get('#terminal-input')
-      .type(line)
+    cy.get('#terminal-input').type(line);
 
-    cy.get('#terminal-form')
-      .submit()
+    cy.get('#terminal-form').submit();
+
+    cy.get('.terminal-input-line').last().contains(line);
 });
 
 Cypress.Commands.add('lastOutputLine', () => cy.get('.terminal-output-line').last());
+
+Cypress.Commands.add('waitForWelcomeMessage', () => cy.contains('Welcome!'));
