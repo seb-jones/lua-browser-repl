@@ -34,7 +34,9 @@ jobs:
       - name: Build application in production mode
         run: make prod
 
-      - name: Cypress run
+      # Note that we do the Cypress run before the Unit Tests because the Cypress
+      # action automatically builds and caches NPM dependencies
+      - name: End-to-end test application with Cypress
         uses: cypress-io/github-action@v2
         with:
           start: npm start
