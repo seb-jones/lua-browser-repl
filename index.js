@@ -5,7 +5,7 @@ var prompt1 = ">";
 var prompt2 = ">>";
 
 function getPrompt() {
-    return currentInputLine === "" ? prompt1 : prompt2;
+    return (currentInputLine === "") ? prompt1 : prompt2;
 }
 
 function setPrompt() {
@@ -56,21 +56,14 @@ createModule(options).then(function (instance) {
         if (e.code === "ArrowUp") {
             historyPosition = (historyPosition === null) ?
                 1 : (historyPosition + 1);
-
-            if (historyPosition > historyLines.length) {
-                historyPosition = null;
-            }
         } else {
             historyPosition = (historyPosition === null) ?
                 historyLines.length : (historyPosition - 1);
-
-            if (historyPosition < 1) {
-                historyPosition = null;
-            }
         }
 
-        if (historyPosition === null) {
+        if (historyPosition < 1 || historyPosition > historyLines.length) {
             terminalInput.value = "";
+            historyPosition = null;
         } else {
             terminalInput.value = historyLines[historyLines.length - historyPosition]
                 .innerText
@@ -99,11 +92,9 @@ createModule(options).then(function (instance) {
             [ currentInputLine + input ]
         );
 
-        if (inputChunkIsIncomplete) {
-            currentInputLine += input;
-        } else {
-            currentInputLine = "";
-        }
+        currentInputLine = inputChunkIsIncomplete ?
+            (currentInputLine + input) :
+            "";
 
         setPrompt();
     });
