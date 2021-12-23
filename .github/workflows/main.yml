@@ -34,43 +34,6 @@ jobs:
       - name: Build application in production mode
         run: make prod
 
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-          cache: 'npm'
-
-      - name: Unit test compiled Javascript
-        run: |
-          npm install
-          npm test
-
-      - name: Upload compiled application artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: compiled-app
-          path: build
-
-      - name: Deploy built files to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build
-
-  cypress_test:
-    needs: build_and_test
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Download compiled application artifacts
-        uses: actions/download-artifact@v2
-        with:
-          name: compiled-app
-
-      - name: List build files
-        run: ls build
-
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
@@ -89,3 +52,14 @@ jobs:
         with:
           name: cypress-videos
           path: cypress/videos
+
+      - name: Unit test compiled Javascript
+        run: |
+          npm install
+          npm test
+
+      - name: Deploy built files to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build
