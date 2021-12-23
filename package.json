@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha",
+    "start": "python -m http.server --directory build",
     "test:watch": "mocha --watch",
     "cypress:open": "cypress open"
   },
