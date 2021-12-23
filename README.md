@@ -24,7 +24,7 @@ A local development server can be started by running:
 npm start
 ```
 
-This uses the [http-server](https://github.com/http-party/http-server) package to launch a HTTP server at `http://127.0.0.1:8080` with `./build` as the web root.
+This uses the [http-server](https://github.com/http-party/http-server) package to launch an HTTP server at `http://127.0.0.1:8080` with `./build` as the web root.
 
 ## Tests
 
