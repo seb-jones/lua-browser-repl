@@ -65,4 +65,54 @@ describe('Lua REPL', () => {
 
         cy.lastOutputLineEquals('6');
     });
+
+    it('Scrolling to end of history sets input to empty string', () => {
+        cy.visitREPL();
+
+        cy.submitLine("7 + 3");
+
+        cy.submitLine("2 + 9");
+
+        cy.get('#terminal-input')
+          .type('{uparrow}')
+          .should('have.value', '2 + 9')
+          .type('{uparrow}')
+          .should('have.value', '7 + 3')
+          .type('{uparrow}')
+          .should('have.value', '');
+    });
+
+    it('Scrolls backwards through history when down arrow is pressed', () => {
+        cy.visitREPL();
+
+        cy.submitLine("10 + 3");
+
+        cy.submitLine("2 + 15");
+
+        cy.get('#terminal-input')
+          .type('{downarrow}')
+          .should('have.value', '10 + 3')
+          .type('{downarrow}')
+          .should('have.value', '2 + 15')
+          .type('{enter}')
+          .should('have.value', '');
+
+        cy.lastOutputLineEquals('17');
+    });
+
+    it('Scrolls backwards to start of history sets input to emtpy string', () => {
+        cy.visitREPL();
+
+        cy.submitLine("10 + 9");
+
+        cy.submitLine("10 + 15");
+
+        cy.get('#terminal-input')
+          .type('{downarrow}')
+          .should('have.value', '10 + 9')
+          .type('{downarrow}')
+          .should('have.value', '10 + 15')
+          .type('{downarrow}')
+          .should('have.value', '');
+    });
 });
