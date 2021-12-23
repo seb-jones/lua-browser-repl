@@ -68,6 +68,9 @@ jobs:
         with:
           name: compiled-app
 
+      - name: List build files
+        run: ls build
+
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
