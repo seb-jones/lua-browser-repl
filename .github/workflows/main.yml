@@ -35,10 +35,20 @@ jobs:
       - name: Build application in production mode
         run: make prod
 
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+          cache: 'npm'
+
+      - name: Unit test compiled Javascript
+        run: |
+          npm install
+          npm test
+
       - name: Cypress run
         uses: cypress-io/github-action@v2
         with:
-          config: baseUrl=http://localhost:3000
+          config: baseUrl=http://localhost
           start: npm start
 
       - name: Upload Cypress Screenshot Artifacts
@@ -54,9 +64,6 @@ jobs:
         with:
           name: cypress-videos
           path: cypress/videos
-
-      - name: Unit test compiled Javascript
-        run: npm test
 
       - name: Deploy built files to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
