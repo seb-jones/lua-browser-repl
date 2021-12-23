@@ -1,9 +1,9 @@
-var { expect } = require("chai");
+const { expect } = require("chai");
 
-var createModule = require("../build/compiled.js");
+const createModule = require("../build/compiled.js");
 
-var stdout = [];
-var stderr = [];
+let stdout = [];
+let stderr = [];
 
 describe("Lua REPL Module", function() {
     describe("#parse", function() {
@@ -11,7 +11,7 @@ describe("Lua REPL Module", function() {
             stdout = [];
             stderr = [];
 
-            var options = {
+            const options = {
                 "print": function(text) { stdout.push(text) },
                 "printErr": function(text) { stderr.push(text) }
             };
@@ -42,7 +42,7 @@ describe("Lua REPL Module", function() {
         });
 
         it("Returns `true` if input is not a complete Lua chunk", function() {
-            var inputChunkIsIncomplete = this.parse("print(");
+            const inputChunkIsIncomplete = this.parse("print(");
 
             expect(inputChunkIsIncomplete).to.equal(1);
 
