@@ -45,6 +45,26 @@ jobs:
           npm install
           npm test
 
+      - name: Cypress run
+        uses: cypress-io/github-action@v2
+        with:
+          config: baseUrl=http://localhost
+          start: npm start
+
+      - name: Upload Cypress Screenshot Artifacts
+        uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
+
+      - name: Upload Cypress Video Artifacts
+        uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: cypress-videos
+          path: cypress/videos
+
       - name: Deploy built files to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
