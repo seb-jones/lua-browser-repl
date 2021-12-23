@@ -16,6 +16,13 @@ Cypress.Commands.add('submitLine', (line) => {
     cy.get('.terminal-input-line').last().contains(line);
 });
 
-Cypress.Commands.add('lastOutputLine', () => cy.get('.terminal-output-line').last());
+Cypress.Commands.add('lastInputLine', (line) => cy.get('.terminal-input-line').last());
 
-Cypress.Commands.add('waitForWelcomeMessage', () => cy.contains('Welcome!'));
+Cypress.Commands.add('lastOutputLineEquals', (line) => {
+    cy.get('.terminal-output-line').last().should('have.text', line);
+});
+
+Cypress.Commands.add('visitREPL', () => {
+    cy.visit('/');
+    cy.contains('Welcome!');
+});
