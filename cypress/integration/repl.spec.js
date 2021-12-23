@@ -36,4 +36,15 @@ describe('Lua REPL', () => {
 
         cy.get('#terminal-input-prompt').should('have.text', '>');
     });
+
+    it('Prints an error when a chunk is invalid', () => {
+        cy.visitREPL();
+
+        cy.submitLine("3 +");
+
+        cy.get('.terminal-error-line').last().should(
+            'have.text', 
+            `[string "3 +"]:1: unexpected symbol near '3'`
+        );
+    });
 });
