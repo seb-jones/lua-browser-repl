@@ -54,9 +54,7 @@ jobs:
           path: cypress/videos
 
       - name: Unit test compiled Javascript
-        run: |
-          npm install
-          npm test
+        run: npm test
 
       - name: Deploy built files to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
