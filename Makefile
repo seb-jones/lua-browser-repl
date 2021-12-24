@@ -6,7 +6,7 @@ MAKE_BUILD_DIRECTORY=mkdir -p ./build
 
 COPY_STATIC_FILES=cp assets/* code/index.html code/index.js build
 
-PREREQUISITES=code/* test/* code/libraries/lua-5.4.3/src/liblua.a
+PREREQUISITES=assets/* code/* test/* code/libraries/lua-5.4.3/src/liblua.a
 
 # Build the main web app in debug mode
 build/index.html:	$(PREREQUISITES)
