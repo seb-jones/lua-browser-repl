@@ -100,7 +100,7 @@ describe('Lua REPL', () => {
         cy.lastOutputLineEquals('17');
     });
 
-    it('Scrolls backwards to start of history sets input to emtpy string', () => {
+    it('Scrolls backwards to start of history sets input to empty string', () => {
         cy.visitREPL();
 
         cy.submitLine("10 + 9");
