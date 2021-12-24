@@ -32,4 +32,4 @@ code/libraries/lua-5.4.3/src/liblua.a:
 # Delete built files
 clean:
 	rm -rf ./build
-	rm -rf code/libraries/lua-5.4.3
+	rm -rf ./code/libraries
