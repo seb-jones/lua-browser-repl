@@ -43,14 +43,27 @@ createModule(options).then(function (instance) {
     terminalInput = document.getElementById("terminal-input");
 
     terminalInput.addEventListener("keydown", function (e) {
-        var historyLines = document.getElementsByClassName("terminal-input-line");
+        var historyLineElements = document.getElementsByClassName("terminal-input-line");
 
-        if (historyLines.length === 0) {
+        if (historyLineElements.length === 0) {
             return;
         }
 
         if (e.code !== "ArrowUp" && e.code !== "ArrowDown") {
             return;
+        }
+
+        //
+        // Convert history line elements into array of strings, ignoring empty lines
+        //
+        var historyLines = [];
+
+        for (var i = 0; i < historyLineElements.length; i++) {
+            var line = historyLineElements[i].innerText.trim();
+
+            if (line !== prompt1 && line !== prompt2) {
+                historyLines.push(line);
+            }
         }
 
         if (e.code === "ArrowUp") {
@@ -66,7 +79,6 @@ createModule(options).then(function (instance) {
             historyPosition = null;
         } else {
             terminalInput.value = historyLines[historyLines.length - historyPosition]
-                .innerText
                 .replace(
                     new RegExp(`^(${prompt1}|${prompt2})\\s`),
                     ""
