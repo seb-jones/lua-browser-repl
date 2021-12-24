@@ -65,6 +65,9 @@ createModule(options).then(function (instance) {
             }
         }
 
+        //
+        // Change history position in response to arrow key inputs
+        //
         if (e.code === "ArrowUp") {
             historyPosition = (historyPosition === null) ?
                 1 : (historyPosition + 1);
@@ -73,6 +76,9 @@ createModule(options).then(function (instance) {
                 historyLines.length : (historyPosition - 1);
         }
 
+        //
+        // Update terminal input value based on history
+        //
         if (historyPosition < 1 || historyPosition > historyLines.length) {
             terminalInput.value = "";
             historyPosition = null;
