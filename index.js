@@ -4,12 +4,12 @@ var currentInputLine = "";
 var prompt1 = ">";
 var prompt2 = ">>";
 
-function getPrompt() {
+function getCurrentPrompt() {
     return (currentInputLine === "") ? prompt1 : prompt2;
 }
 
-function setPrompt() {
-    return document.getElementById("terminal-input-prompt").innerText = getPrompt();
+function setCurrentPrompt() {
+    return document.getElementById("terminal-input-prompt").innerText = getCurrentPrompt();
 }
 
 function addLineToOutput(line, className = "terminal-output-line") {
@@ -38,7 +38,7 @@ createModule(options).then(function (instance) {
 
     instance.ccall("initialise_lua");
 
-    setPrompt();
+    setCurrentPrompt();
 
     terminalInput = document.getElementById("terminal-input");
 
@@ -95,7 +95,7 @@ createModule(options).then(function (instance) {
 
         terminalInput.value = "";
 
-        addLineToOutput(getPrompt() + " " + input, "terminal-input-line");
+        addLineToOutput(getCurrentPrompt() + " " + input, "terminal-input-line");
 
         var inputChunkIsIncomplete = instance.ccall(
             "parse",
@@ -108,6 +108,6 @@ createModule(options).then(function (instance) {
             (currentInputLine + input) :
             "";
 
-        setPrompt();
+        setCurrentPrompt();
     });
 });
