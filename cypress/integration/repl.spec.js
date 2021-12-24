@@ -127,4 +127,24 @@ describe('Lua REPL', () => {
           .type('{uparrow}')
           .should('have.value', '1 + 1');
     });
+
+    it('Empty lines in multiline inputs are ignored when scrolling through history', () => {
+        cy.visitREPL();
+
+        cy.submitLine("print(");
+
+        cy.submitLine("3");
+
+        cy.get('#terminal-form').submit(); // Submit empty line
+
+        cy.submitLine(");");
+
+        cy.get('#terminal-input')
+          .type('{uparrow}')
+          .should('have.value', ');')
+          .type('{uparrow}')
+          .should('have.value', '3')
+          .type('{uparrow}')
+          .should('have.value', 'print(');
+    });
 });
