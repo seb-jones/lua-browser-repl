@@ -115,4 +115,16 @@ describe('Lua REPL', () => {
           .type('{downarrow}')
           .should('have.value', '');
     });
+
+    it('Empty lines are ignored when scrolling through history', () => {
+        cy.visitREPL();
+
+        cy.submitLine("1 + 1");
+
+        cy.get('#terminal-form').submit(); // Submit empty line
+
+        cy.get('#terminal-input')
+          .type('{uparrow}')
+          .should('have.value', '1 + 1');
+    });
 });
