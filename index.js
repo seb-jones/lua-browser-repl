@@ -20,16 +20,14 @@ function addLineToOutput(line, className = "terminal-output-line") {
     document.getElementById("terminal-output").append(span);
 }
 
-const options = {
+createModule({
     print: function(text) {
         addLineToOutput(text);
     },
     printErr: function(text) {
         addLineToOutput(text, "terminal-error-line");
     },
-};
-
-createModule(options).then(function (instance) {
+}).then(function (instance) {
     window.onerror = function(message) {
         instance.printErr(message);
     };
