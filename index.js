@@ -1,6 +1,6 @@
-var currentInputLine = "";
-var prompt1 = ">";
-var prompt2 = ">>";
+const prompt1 = ">";
+const prompt2 = ">>";
+let currentInputLine = "";
 
 function getCurrentPrompt() {
     return (currentInputLine === "") ? prompt1 : prompt2;
@@ -11,7 +11,7 @@ function setCurrentPrompt() {
 }
 
 function addLineToOutput(line, className = "terminal-output-line") {
-    var span = document.createElement("span");
+    let span = document.createElement("span");
 
     span.innerText = line;
 
@@ -20,7 +20,7 @@ function addLineToOutput(line, className = "terminal-output-line") {
     document.getElementById("terminal-output").append(span);
 }
 
-var options = {
+const options = {
     print: function(text) {
         addLineToOutput(text);
     },
@@ -38,11 +38,11 @@ createModule(options).then(function (instance) {
 
     setCurrentPrompt();
 
-    var historyPosition = null;
-    var terminalInput = document.getElementById("terminal-input");
+    let historyPosition = null;
+    let terminalInput = document.getElementById("terminal-input");
 
     terminalInput.addEventListener("keydown", function (e) {
-        var historyLineElements = document.getElementsByClassName("terminal-input-line");
+        const historyLineElements = document.getElementsByClassName("terminal-input-line");
 
         if (historyLineElements.length === 0) {
             return;
@@ -55,10 +55,10 @@ createModule(options).then(function (instance) {
         //
         // Convert history line elements into array of strings, ignoring empty lines
         //
-        var historyLines = [];
+        let historyLines = [];
 
-        for (var i = 0; i < historyLineElements.length; i++) {
-            var line = historyLineElements[i].innerText.trim();
+        for (let i = 0; i < historyLineElements.length; i++) {
+            const line = historyLineElements[i].innerText.trim();
 
             if (line !== prompt1 && line !== prompt2) {
                 historyLines.push(line);
@@ -90,13 +90,13 @@ createModule(options).then(function (instance) {
 
         historyPosition = null;
 
-        var input = terminalInput.value;
+        const input = terminalInput.value;
 
         terminalInput.value = "";
 
         addLineToOutput(getCurrentPrompt() + " " + input, "terminal-input-line");
 
-        var inputChunkIsIncomplete = instance.ccall(
+        const inputChunkIsIncomplete = instance.ccall(
             "parse",
             "number",
             [ "string" ],
