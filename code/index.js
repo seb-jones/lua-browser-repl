@@ -1,5 +1,3 @@
-var terminalInput = null;
-var historyPosition = null;
 var currentInputLine = "";
 var prompt1 = ">";
 var prompt2 = ">>";
@@ -40,7 +38,8 @@ createModule(options).then(function (instance) {
 
     setCurrentPrompt();
 
-    terminalInput = document.getElementById("terminal-input");
+    var historyPosition = null;
+    var terminalInput = document.getElementById("terminal-input");
 
     terminalInput.addEventListener("keydown", function (e) {
         var historyLineElements = document.getElementsByClassName("terminal-input-line");
