@@ -4,17 +4,19 @@ SHARED_OPTIONS=-I $(LUA_SOURCE_PATH) -L $(LUA_SOURCE_PATH) -Wall code/main.c -o 
 
 MAKE_BUILD_DIRECTORY=mkdir -p ./build
 
-COPY_STATIC_FILES=cp code/index.html code/index.js build
+COPY_STATIC_FILES=cp assets/* code/index.html code/index.js build
+
+PREREQUISITES=code/* test/* code/libraries/lua-5.4.3/src/liblua.a
 
 # Build the main web app in debug mode
-build/index.html:	code/* test/* code/libraries/lua-5.4.3/src/liblua.a
+build/index.html:	$(PREREQUISITES)
 	$(MAKE_BUILD_DIRECTORY)
 	emcc -g -O0 -fsanitize=undefined $(SHARED_OPTIONS)
 	$(COPY_STATIC_FILES)
 
 # Build the main web app in production mode
 .PHONY: prod
-prod:	code/* test/* code/libraries/lua-5.4.3/src/liblua.a
+prod:	$(PREREQUISITES)
 	$(MAKE_BUILD_DIRECTORY)
 	emcc -O2 $(SHARED_OPTIONS)
 	$(COPY_STATIC_FILES)
