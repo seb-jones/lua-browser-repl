@@ -45,3 +45,7 @@ End-to-end tests are implemented using [Cypress](https://docs.cypress.io/), whic
 ```sh
 npm run cypress:open
 ```
+
+## Credit
+
+CC0 SVG taken from [SVG Repo](https://www.svgrepo.com/svg/48929/moon) to make the Favicon.
