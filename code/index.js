@@ -98,17 +98,17 @@ createModule({
 
         terminalInput.value = "";
 
-        addLineToOutput(getCurrentPrompt() + " " + input, "terminal-input-line");
+        addLineToOutput(getCurrentPrompt() + ` ${input}`, "terminal-input-line");
 
         const inputChunkIsIncomplete = instance.ccall(
             "parse",
             "number",
             [ "string" ],
-            [ currentInputLine + input ]
+            [ `${currentInputLine} ${input}` ]
         );
 
         currentInputLine = inputChunkIsIncomplete ?
-            (currentInputLine + input) :
+            `${currentInputLine} ${input}` :
             "";
 
         setCurrentPrompt();
