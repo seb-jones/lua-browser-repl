@@ -114,5 +114,8 @@ createModule({
         currentInputLine = inputChunkIsIncomplete ? input : "";
 
         setCurrentPrompt();
+
+        // Scroll to bottom of page
+        window.scrollTo(0, document.body.scrollHeight, { behavior: 'instant' });
     });
 });
