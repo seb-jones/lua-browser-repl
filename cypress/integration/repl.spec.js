@@ -147,4 +147,20 @@ describe('Lua REPL', () => {
           .type('{uparrow}')
           .should('have.value', 'print(');
     });
+
+    it('Lua `do ... end` chunks work correctly with multi-line input', () => {
+        cy.visitREPL();
+
+        cy.submitLine("do");
+        cy.submitLine("print('Hello')");
+        cy.submitLine("print('World')");
+        cy.submitLine("end");
+
+        cy.get('.terminal-output-line')
+          .should($spans => {
+              expect($spans).to.have.length(3);
+              expect($spans[1].innerText).to.equal('Hello');
+              expect($spans[2].innerText).to.equal('World');
+          });
+    });
 });
