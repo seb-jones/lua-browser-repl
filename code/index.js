@@ -94,22 +94,24 @@ createModule({
 
         historyPosition = null;
 
-        const input = terminalInput.value;
+        let input = terminalInput.value;
 
         terminalInput.value = "";
 
         addLineToOutput(getCurrentPrompt() + ` ${input}`, "terminal-input-line");
 
+        if (currentInputLine !== "") {
+            input = `${currentInputLine} ${input}`;
+        }
+
         const inputChunkIsIncomplete = instance.ccall(
             "parse",
             "number",
             [ "string" ],
-            [ `${currentInputLine} ${input}` ]
+            [ input ]
         );
 
-        currentInputLine = inputChunkIsIncomplete ?
-            `${currentInputLine} ${input}` :
-            "";
+        currentInputLine = inputChunkIsIncomplete ? input : "";
 
         setCurrentPrompt();
     });
