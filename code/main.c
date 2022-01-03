@@ -30,6 +30,24 @@ void print_values_on_stack()
     }
 }
 
+static int message_handler(lua_State *L)
+{
+    const char *msg = lua_tostring(L, 1);
+
+    if (msg == NULL) { /* is error object not a string? */
+        if (luaL_callmeta(L, 1, "__tostring") && /* does it have a metamethod */
+            lua_type(L, -1) == LUA_TSTRING)      /* that produces a string? */
+            return 1;                            /* that is the message */
+        else
+            msg = lua_pushfstring(L, "(error object is a %s value)",
+                                  luaL_typename(L, 1));
+    }
+
+    luaL_traceback(L, L, msg, 1); /* append a standard traceback */
+
+    return 1;                     /* return the traceback */
+}
+
 void initialise_lua()
 {
     L = luaL_newstate();
@@ -65,6 +83,9 @@ int protected_parse(lua_State *L)
     /* Try running as an expression that returns a result first */
     int error;
     {
+        /* push message handler */
+        lua_pushcfunction(L, message_handler);
+
         const char *s = lua_pushfstring(L, "return %s", input);
 
         luaL_loadstring(L, s);
@@ -72,7 +93,7 @@ int protected_parse(lua_State *L)
         /* Remove the string created by lua_pushfstring to the stack */
         lua_remove(L, -2);
 
-        error = lua_pcall(L, 0, LUA_MULTRET, 0);
+        error = lua_pcall(L, 0, LUA_MULTRET, -2);
     }
 
     /* Try running code as a statement if 'return' expression fails */
@@ -80,12 +101,15 @@ int protected_parse(lua_State *L)
         /* Remove the error from the failed 'return' expression first */
         lua_pop(L, 1);
 
-        error = luaL_dostring(L, input);
+        error = (luaL_loadstring(L, input) || lua_pcall(L, 0, LUA_MULTRET, -2));
     }
 
     bool input_chunk_is_incomplete = false;
 
     if (error == LUA_OK) {
+        /* Remove message handler function from stack */
+        lua_remove(L, 1);
+
         print_values_on_stack();
     } else {
         /* Check for incomplete input chunk */
