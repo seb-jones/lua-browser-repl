@@ -25,6 +25,7 @@ createModule({
         addLineToOutput(text);
     },
     printErr: function(text) {
+        console.error(text);
         addLineToOutput(text, "terminal-error-line");
     },
 }).then(function (instance) {
